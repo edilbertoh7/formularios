@@ -1,0 +1,114 @@
+<h4>Formularios <small> reactivos </small></h4>
+<hr>
+<form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
+
+    <div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Nombre</label>
+            <div class="col">
+                <!-- formControlName permite establecer una relacion con el objeto que se declara  en el metodo crearFormulario -->
+                <input class="form-control" type="text" placeholder="Nombre" formControlName="nombre" [class.is-invalid]="getnombreNovalido('nombre')">
+                <small *ngIf="getnombreNovalido('nombre')" class="text-danger">ingrese mas de 5 letras</small>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Apellido</label>
+            <div class="col">
+
+                <input class="form-control" type="text" placeholder="Apellido" formControlName="apellido" [class.is-invalid]="getnombreNovalido('apellido')">
+                <small *ngIf="getnombreNovalido('apellido') && !noapellido" class="text-danger">ingrese mas de 5 letras</small>
+                <small *ngIf="noapellido" class="text-danger">el apellido herrera no se admite</small>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Correo</label>
+        <div class="col">
+
+            <input class="form-control" type="email" placeholder="Correo electrónico" formControlName="correo" [class.is-invalid]="getnombreNovalido('correo')">
+            <small *ngIf="getnombreNovalido('correo')" class="text-danger">correo invalido</small>
+
+        </div>
+    </div>
+
+    <div class="form-group row" formGroupName="direccion" [class.is-invalid]="getnombreNovalido('correo')">
+        <label class="col-2 col-form-label">Direccion</label>
+        <div class="form-row col">
+            <div class="col">
+
+                <input type="text" class="form-control" placeholder="Distrito" formControlName="distrito" [class.is-invalid]="getdireccionNovalido('direccion','distrito')">
+                <small *ngIf="getdireccionNovalido('direccion','distrito')" class="text-danger">este campo es obligatorio </small>
+            </div>
+
+            <div class="col">
+
+                <input type="text" class="form-control" placeholder="Ciudad" formControlName="ciudad" [class.is-invalid]="getdireccionNovalido('direccion','ciudad')">
+                <small *ngIf="getdireccionNovalido('direccion','ciudad')" class="text-danger">este campo es obligatorio </small>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Pasatiempos</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="pasatiempos">
+                    <tr *ngFor="let control of pasatiempos.controls; let i = index">
+                        <td> {{i+1}} </td>
+                        <td>
+                            <input class="form-control" type="text" placeholder="ingrese valor" [formControlName]="i">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" (click)="borrarpasatiempo(i)">Borrar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">&nbsp;</label>
+                <div class="input-group col">
+                    <button type="button" (click)="agregarpasatiempo()" class="btn btn-primary btn-block">
+                      +Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col">
+            <button type="submit" class="btn btn-outline-primary btn-block">
+        Guardar
+      </button>
+        </div>
+    </div>
+
+</form>
+<hr>
+<pre>
+  estado del formulario de formulario: {{forma.valid}}
+  <br>
+  {{forma.status}}
+  <pre>
+    {{forma.value | json}}
+  </pre>
+<pre>
+    {{data | json}}
+  </pre>
+</pre>
